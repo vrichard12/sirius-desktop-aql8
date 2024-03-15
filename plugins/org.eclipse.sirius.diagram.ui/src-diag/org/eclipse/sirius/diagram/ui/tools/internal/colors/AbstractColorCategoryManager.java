@@ -79,8 +79,8 @@ public abstract class AbstractColorCategoryManager implements ColorCategoryManag
     /**
      * A list of ten useful colors used for the "Basic" color category.
      */
-    private static final List<SystemColors> BASIC_COLORS = Arrays.asList(SystemColors.BLACK_LITERAL, SystemColors.DARK_GRAY_LITERAL, SystemColors.LIGHT_GRAY_LITERAL, SystemColors.WHITE_LITERAL,
-            SystemColors.RED_LITERAL, SystemColors.ORANGE_LITERAL, SystemColors.YELLOW_LITERAL, SystemColors.GREEN_LITERAL, SystemColors.BLUE_LITERAL, SystemColors.PURPLE_LITERAL);
+    private static final List<SystemColors> BASIC_COLORS = Arrays.asList(SystemColors.BLACK_LITERAL, SystemColors.LIGHT_GRAY_LITERAL, SystemColors.WHITE_LITERAL, SystemColors.RED_LITERAL,
+            SystemColors.ORANGE_LITERAL, SystemColors.YELLOW_LITERAL, SystemColors.GREEN_LITERAL, SystemColors.LIGHT_BLUE_LITERAL, SystemColors.DARK_BLUE_LITERAL, SystemColors.PURPLE_LITERAL);
 
     /**
      * Maximum number of "Last Used" colors to store.

@@ -29,11 +29,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ui.business.api.preferences.SiriusUIPreferencesKeys;
 import org.eclipse.sirius.ui.tools.api.color.VisualBindingManager;
 import org.eclipse.sirius.viewpoint.RGBValues;
 import org.eclipse.sirius.viewpoint.description.SystemColors;
-import org.eclipse.sirius.viewpoint.description.UserColorsPalette;
 import org.eclipse.sirius.viewpoint.description.UserFixedColor;
 import org.eclipse.sirius.viewpoint.provider.SiriusEditPlugin;
 import org.eclipse.swt.graphics.Color;
@@ -111,48 +109,6 @@ public class ColorManager {
             sb.append(color.getBlue());
         }
         return sb.toString();
-    }
-
-    /**
-     * Collect the {@link UserFixedColor}s defined in the all the selected VSM of the given session and concat them to
-     * the {@link SystemColor}s.
-     * 
-     * @param session
-     *            the session in which to find UserFixedColor
-     * @return A map which key is the color name and the value is the RGB.
-     */
-    public Map<String, RGB> collectVsmAndDefaultColors(Session session) {
-        // Get user fixed colors
-        // Get all the UserColorsPalette from every VSM resource of selected viewpoints
-        Map<String, RGB> vsmColors = new LinkedHashMap<>();
-        final IPreferenceStore preferenceStore = SiriusEditPlugin.getPlugin().getPreferenceStore();
-        if (preferenceStore != null && preferenceStore.getBoolean(SiriusUIPreferencesKeys.PREF_DISPLAY_VSM_USER_FIXED_COLOR_IN_PALETTE.name())) {
-            List<UserColorsPalette> palettes = session.getSelectedViewpoints(true).stream().map(EObject::eContainer).map(org.eclipse.sirius.viewpoint.description.Group.class::cast)
-                    .flatMap(group -> group.getUserColorsPalettes().stream()).collect(Collectors.toList());
-
-            vsmColors = palettes.stream().flatMap(palette -> palette.getEntries().stream()).filter(UserFixedColor.class::isInstance).map(UserFixedColor.class::cast)
-                    .collect(Collectors.toMap(c -> c.getName(), c -> new RGB(c.getRed(), c.getGreen(), c.getBlue()), (rgb1, rgb2) -> {
-                        // in a case of collision of key we keep the first value
-                        return rgb1;
-                    }, () -> new LinkedHashMap<String, RGB>()));
-        }
-
-        // get system colors
-        Map<String, RGB> systemColors = VisualBindingManager.getDefault().getSystemPalette();
-
-        // organize the order of colors
-        Map<String, RGB> colors = new LinkedHashMap<>();
-        for (SystemColors color : GRAYED_COLORS) {
-            colors.put(color.getName(), systemColors.get(color.getName()));
-        }
-        for (String colorName : vsmColors.keySet()) {
-            colors.put(colorName, vsmColors.get(colorName));
-        }
-        for (SystemColors color : RAINBOW_COLORS) {
-            colors.put(color.getName(), systemColors.get(color.getName()));
-        }
-
-        return colors;
     }
 
     /**
