@@ -2,7 +2,7 @@ target "aql-8"
 
 with requirements
 
-location AQL-8 "https://download.eclipse.org/acceleo/updates/nightly/latest/" {
+location AQL-8 "https://download.eclipse.org/acceleo/updates/releases/4.0/R202407021157/" {
     org.eclipse.acceleo.query.feature.group lazy
     org.eclipse.acceleo.query.source.feature.group lazy
     org.eclipse.acceleo.query.ui.feature.group lazy
